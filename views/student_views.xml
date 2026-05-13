@@ -1,0 +1,154 @@
+<odoo>
+
+    <!-- ROOT MENU -->
+    <menuitem id="menu_student_root" name="Student Management"/>
+
+    <!-- SUB MENU -->
+    <menuitem id="menu_student" name="Students" parent="menu_student_root"/>
+
+    <!-- ACTION -->
+    <record id="action_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">student.student</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <!-- MENU LINK -->
+    <menuitem id="menu_student_list"
+              name="Student List"
+              parent="menu_student"
+              action="action_student"/>
+
+    <!-- TREE VIEW -->
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">student.tree</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="father_name" optional="hide"/>
+                <field name="mother_name" optional="hide"/>
+                <field name="dob" optional="hide"/>
+                <field name="gender" optional="show"/>
+                <field name="roll_no" optional="show"/>
+                <field name="course_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- KANBAN VIEW -->
+    <record id="view_student_kanban" model="ir.ui.view">
+        <field name="name">student.kanban</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="roll_no"/>
+                <field name="gender"/>
+                <field name="course_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click" style="border-radius:8px; padding:12px;">
+
+                            <!-- STUDENT NAME -->
+                            <div style="background-color:#7C3AED; color:white; padding:8px 12px; border-radius:6px; margin-bottom:10px;">
+                                <strong style="font-size:15px;">
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+
+                            <!-- CARD DETAILS -->
+                            <div style="padding: 4px 2px;">
+                                <div style="margin-bottom:5px;">
+                                    <span style="color:#7C3AED;"><strong>🎫 Roll No: </strong></span>
+                                    <field name="roll_no"/>
+                                </div>
+                                <div style="margin-bottom:5px;">
+                                    <span style="color:#7C3AED;"><strong>👤 Gender: </strong></span>
+                                    <field name="gender"/>
+                                </div>
+                                <div style="margin-bottom:5px;">
+                                    <span style="color:#7C3AED;"><strong>📚 Course: </strong></span>
+                                    <field name="course_id"/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">student.form</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div>
+                        <h1><field name="name" placeholder="e.g. Muhammad Faraz"/></h1>
+                    </div>
+
+                    <!-- 2 COLUMN LAYOUT -->
+                    <group>
+                        <!-- LEFT SIDE -->
+                        <group>
+                            <field name="father_name" required="1"/>
+                            <field name="mother_name" required="1"/>
+                            <field name="dob"/>
+                            <field name="gender"/>
+                        </group>
+
+                        <!-- RIGHT SIDE -->
+                        <group>
+                            <field name="roll_no" required="1"/>
+                            <field name="admission_no"/>
+                            <field name="course_id"/>
+                        </group>
+                    </group>
+
+                </sheet>
+
+                <!-- EMAIL CHATTER -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_student_search" model="ir.ui.view">
+        <field name="name">student.search</field>
+        <field name="model">student.student</field>
+        <field name="arch" type="xml">
+            <search string="Search Students">
+
+                <!-- SEARCH FIELDS -->
+                <field name="name" string="Student Name"/>
+                <field name="roll_no" string="Roll No"/>
+                <field name="admission_no" string="Admission No"/>
+                <field name="course_id" string="Course"/>
+
+                <!-- FILTERS -->
+                <filter name="filter_male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender','=','female')]"/>
+                <separator/>
+                <filter name="filter_archived" string="Archived" domain="[('active','=',False)]"/>
+
+                <!-- GROUP BY -->
+                <group expand="0" string="Group By">
+                    <filter name="group_by_course" string="Course" context="{'group_by':'course_id'}"/>
+                    <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+</odoo>
