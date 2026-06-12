@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_student_form_inherit" model="ir.ui.view">
+        <field name="name">student.form.inherit</field>
+        <field name="model">student.student</field>
+        <field name="inherit_id" ref="student_management.view_student_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Gender field ke BAAD blood_group add karo -->
+            <field name="gender" position="after">
+                <field name="blood_group" string="Blood Group"/>
+            </field>
+
+        </field>
+    </record>
+</odoo>
